@@ -1,0 +1,308 @@
+make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
+# GNU Make 4.3
+# Built for x86_64-pc-cygwin
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+ 
+
+# Make data base, printed on Sat May 21 07:49:42 2022
+
+# Variables
+
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+# environment
+SYSTEMDRIVE = C:
+# environment
+ 
+GHCUP_INSTALL_BASE_PREFIX = C:\
+# environment
+LC_ALL = C
+# environment
+USERPROFILE = C:\Users\Utilizador
+# environment
+VBOX_MSI_INSTALL_PATH = C:\Program Files\Oracle\VirtualBox\
+# environment
+LOCALAPPDATA = C:\Users\Utilizador\AppData\Local
+# environment
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-3b7670ee-97e5-4563-857d-37cdbf5520e4-sock
+# environment
+VSCODE_CWD = C:\Users\Utilizador\AppData\Local\Programs\Microsoft VS Code
+# environment
+CHOCOLATEYINSTALL = C:\ProgramData\chocolatey
+# environment
+SYSTEMROOT = C:\Windows
+# environment
+PROCESSOR_LEVEL = 6
+# environment
+PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+# default
+MAKE_COMMAND := make
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_9224_BMEHGVRFCNWMGJVJ
+# environment
+ONEDRIVECOMMERCIAL = C:\Users\Utilizador\OneDrive - Universidade de Coimbra
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+VSCODE_LOG_STACK = false
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = C:\Users\Utilizador\AppData\Roaming\Code\CachedData\c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5
+# environment
+LANG = C
+# default
+.LOADED := 
+# environment
+TMP = /cygdrive/c/Users/UTILIZ~1/AppData/Local/Temp
+# default
+.INCLUDE_DIRS = /usr/include /usr/include
+# makefile
+MAKEFLAGS = pqrR
+# environment
+ONEDRIVE = C:\Users\Utilizador\OneDrive - Universidade de Coimbra
+# environment
+INTELLIJ IDEA COMMUNITY EDITION = C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.2.2\bin;
+# makefile
+CURDIR := /cygdrive/c/Users/Utilizador/OneDrive - Universidade de Coimbra/Documentos/WORMHOLE MIAMI/A3Dex
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+PROGRAMFILES = C:\Program Files
+# environment
+MFLAGS = -pqrR
+# default
+.SHELLFLAGS := -c
+# environment
+!C: = c:\Users\Utilizador\OneDrive - Universidade de Coimbra\Documentos\WORMHOLE MIAMI\A3Dex
+# environment
+COMMONPROGRAMW6432 = C:\Program Files\Common Files
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# makefile
+MAKEFILE_LIST := 
+# automatic
+@F = $(notdir $@)
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+VSCODE_PID = 9224
+# environment
+CLION = C:\Program Files\JetBrains\CLion 2020.3.2\bin;
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+*F = $(notdir $*)
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+PHPSTORM = C:\Program Files\JetBrains\PhpStorm 2021.2.3\bin;
+# environment
+VSCODE_NLS_CONFIG = {"locale":"pt-pt","availableLanguages":{},"_languagePackSupport":true}
+# environment
+ 
+ONEDRIVECONSUMER = C:\Users\Utilizador\OneDrive
+# default
+MAKE_HOST := x86_64-pc-cygwin
+# environment
+ANDROID_HOME = C:\Users\Utilizador\AppData\Local\Android\Sdk
+# environment
+PROGRAMDATA = C:\ProgramData
+# default
+SHELL := /bin/sh
+# environment
+HOMEPATH = \Users\Utilizador
+# default
+MAKECMDGOALS := all
+# environment
+DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+# environment
+COMSPEC = C:\Windows\system32\cmd.exe
+# environment
+WINDIR = C:\Windows
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = /cygdrive/c/Program Files (x86)/Addinsoft/XLSTAT:/cygdrive/c/Program Files/Common Files/Oracle/Java/javapath:/cygdrive/c/Program Files/Python39/Scripts:/cygdrive/c/Program Files/Python39:/cygdrive/c/Windows/system32:/cygdrive/c/Windows:/cygdrive/c/Windows/System32/Wbem:/cygdrive/c/Windows/System32/WindowsPowerShell/v1.0:/cygdrive/c/Windows/System32/OpenSSH:/cygdrive/c/Program Files/Git/cmd:/cygdrive/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/cygdrive/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/cygdrive/c/Program Files/PuTTY:/cygdrive/c/Program Files/nodejs:/cygdrive/c/ProgramData/chocolatey/bin:/cygdrive/c/Users/Utilizador/AppData/Local/Android/Sdk:/cygdrive/c/Program Files/MATLAB/R2021b/bin:/cygdrive/c/Program Files/Docker/Docker/resources/bin:/cygdrive/c/ProgramData/DockerDesktop/version-bin:/cygdrive/c/Program Files (x86)/pypy3.9-v7.3.9-win64:/cygdrive/c/Users/Utilizador/.cargo/bin:/cygdrive/c/Program Files/MySQL/MySQL Shell 8.0/bin:/cygdrive/c/Users/Utilizador/AppData/Local/Microsoft/WindowsApps:/cygdrive/c/Program Files/JetBrains/PyCharm Community Edition 2020.2.3/bin:/cygdrive/c/Users/Utilizador/AppData/Local/Programs/Microsoft VS Code/bin:/cygdrive/c/Users/Utilizador/AppData/Local/GitHubDesktop/bin:/cygdrive/c/Program Files/JetBrains/CLion 2020.3.2/bin:/cygdrive/c/Program Files/JetBrains/CLion 2020.3.2/bin/cmake/cygwin/bin:/usr/bin:/cygdrive/c/Program Files/JetBrains/IntelliJ IDEA Community Edition 2021.2.2/bin:/cygdrive/c/Program Files/JetBrains/PhpStorm 2021.2.3/bin:/cygdrive/c/Users/Utilizador/AppData/Roaming/npm:/cygdrive/c/ghcup/bin:/cygdrive/c/Program Files/MySQL/MySQL Server 8.0/bin:/cygdrive/c/tools/dart-sdk/bin:/cygdrive/c/Users/Utilizador/AppData/Roaming/Pub/Cache/bin:/cygdrive/c/Program Files/flutter/bin:/cygdrive/c/Users/Utilizador/AppData/Local/Android/Sdk/emulator:/cygdrive/c/Users/Utilizador/AppData/Local/Android/Sdk/platform-tools:/cygdrive/c/Users/Utilizador/AppData/Local/Android/Sdk/tools/bin:/usr/bin:/cygdrive/c/mingw/bin:/cygdrive/c/Program Files/PostgreSQL/14/bin:/cygdrive/c/Program Files (x86)/pypy3.9-v7.3.9-win64
+# environment
+ZES_ENABLE_SYSMAN = 1
+# environment
+COMPUTERNAME = DESKTOP-01D422J
+# default
+MAKEFILES := 
+# automatic
+^F = $(notdir $^)
+# environment
+PROMPT = $P$G
+# environment
+CHOCOLATEYLASTPATHUPDATE = 132888892442384428
+# environment
+LOGONSERVER = \\DESKTOP-01D422J
+# environment
+VSCODE_LOG_NATIVE = false
+# environment
+USERNAME = Utilizador
+# environment
+COMMONPROGRAMFILES = C:\Program Files\Common Files
+# automatic
+?F = $(notdir $?)
+# environment
+PROGRAMW6432 = C:\Program Files
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+# automatic
++F = $(notdir $+)
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+USERDOMAIN = DESKTOP-01D422J
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+OS = Windows_NT
+# makefile
+.DEFAULT_GOAL := 
+# default
+MAKE_VERSION := 4.3
+# environment
+PROGRAMFILES(X86) = C:\Program Files (x86)
+# environment
+USERDOMAIN_ROAMINGPROFILE = DESKTOP-01D422J
+# environment
+NUMBER_OF_PROCESSORS = 8
+# environment
+PUBLIC = C:\Users\Public
+# environment
+APPDATA = C:\Users\Utilizador\AppData\Roaming
+# environment
+HOMEDRIVE = C:
+# environment
+PROCESSOR_ARCHITECTURE = AMD64
+# environment
+PYCHARM COMMUNITY EDITION = C:\Program Files\JetBrains\PyCharm Community Edition 2020.2.3\bin;
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/Utilizador
+# environment
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+TEMP = /cygdrive/c/Users/UTILIZ~1/AppData/Local/Temp
+# environment
+VSCODE_IPC_HOOK = \\.\pipe\ebdd66c6bc5fef845d5d1de9eaed4f39-1.67.2-main-sock
+# environment
+TERM = xterm-256color
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# default
+SUFFIXES := 
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+CABAL_DIR = C:\cabal
+# environment
+SESSIONNAME = Console
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink guile load
+# environment
+PROCESSOR_REVISION = 7e05
+# environment
+CHOCOLATEYTOOLSLOCATION = C:\tools
+# environment
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 126 Stepping 5, GenuineIntel
+# variable set hash-table stats:
+# Load=110/1024=11%, Rehash=0, Collisions=14/134=10%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 83202829, inode 2533274791726525): 7 files, no impossibilities.
+
+# 7 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+ 
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+makefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+GNUmakefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# files hash-table stats:
+# Load=6/1024=1%, Rehash=0, Collisions=0/15=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 14 / storage = 116 B / avg = 8 B
+# current buf: size = 8162 B / used = 116 B / count = 14 / avg = 8 B
+
+# strcache performance: lookups = 17 / hit rate = 17%
+# hash-table stats:
+# Load=14/8192=0%, Rehash=0, Collisions=0/17=0%
+# Finished Make data base on Sat May 21 07:49:42 2022
+
+ 
