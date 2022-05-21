@@ -56,6 +56,13 @@ impl Contract {
             supported_tokens: Vec::new(),
         };
 
+        ext_dex_calls::storage_deposit(
+            None,
+            this.dex_contract.clone(),
+            100_000_000_000_000_000_000_000,
+            Gas(3000000000000)
+            );
+
         //register on ref finance
 
         //return the Contract object
@@ -64,22 +71,30 @@ impl Contract {
     
 
 
-    pub fn ft_on_transfer(&mut self, sender_id:AccountId, amount:String, msg:String)-> &str{
+    pub fn ft_on_transfer(&mut self, sender_id:AccountId, amount:String, msg:String)-> bool {
         let token_address = env::predecessor_account_id();
-        let v: Value = serde_json::from_str(msg).ok()?;
+        //let v: Value = serde_json::from_str(&msg).ok()?;
         env::log(format!("TOKEN ADDR: {}, PREPAID_GAS {:?}", token_address, env::prepaid_gas()).as_bytes());
         ext_dex_calls::ft_transfer_call(
             self.dex_contract.clone(), 
             amount, 
             "".to_string(), 
-            None, 
+            None,
             token_address,
             1,
             Gas(100000000000000)
-        ).and(
-            
         );
-        return "0";
+        // ).and(
+        //     ext_dex_calls::place_bid(
+        //         v["market_id"].as_str().unwrap().to_string(),
+        //         v["price"].as_str().unwrap().to_string(),
+        //         amount,
+        //         true,
+        //         self.dex_contract.clone()
+                
+        //     )
+        // );
+        return false;
     }
 
     pub fn test(&self) -> Option<Vec<AccountId>> {
@@ -105,7 +120,7 @@ impl Contract {
             token_addr.clone(),
             env::attached_deposit(),
             Gas(5_000_000_000_000)
-        ).then(ext_self::add_token_resolve(
+        ).and(ext_self::add_token_resolve(
             token_addr.clone(),
             env::current_account_id(),
             0,
@@ -113,6 +128,11 @@ impl Contract {
         ));
         return true;
 
+    }
+
+    pub fn reset_tokens(&mut self) -> bool{
+        self.supported_tokens.clear();
+        return true;
     }
 
 
