@@ -3,6 +3,8 @@ use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::{LazyOption, LookupMap, UnorderedMap, UnorderedSet};
 use near_sdk::json_types::{Base64VecU8, U128};
 use near_sdk::serde::{Deserialize, Serialize};
+use serde_json::Value;
+use serde_json;
 //import ext_contract
 
 use near_sdk::{
@@ -20,12 +22,14 @@ pub trait ExtDex {
     fn ft_transfer_call(
         &mut self,
         receiver_id: AccountId,
-        amount: U128,
+        amount: String,
         msg: String,
         memo: Option<String>,
     ) -> bool;
 
     fn storage_deposit(&mut self, account_id: Option<ValidAccountId>);
+
+    fn place_bid(market_id: String, price: String, quantity: String, market_order: bool);
 }
 
 #[near_bindgen]
@@ -57,16 +61,32 @@ impl Contract {
         //return the Contract object
         this
     }
+    
 
 
-    pub fn ft_on_transfer(&mut self, sender_id:AccountId, amount:U128)-> bool{
+    pub fn ft_on_transfer(&mut self, sender_id:AccountId, amount:String, msg:String)-> &str{
         let token_address = env::predecessor_account_id();
-        env::log(format!("TOKEN ADDR: {}", token_address).as_bytes());
-        return false;
+        let v: Value = serde_json::from_str(msg).ok()?;
+        env::log(format!("TOKEN ADDR: {}, PREPAID_GAS {:?}", token_address, env::prepaid_gas()).as_bytes());
+        ext_dex_calls::ft_transfer_call(
+            self.dex_contract.clone(), 
+            amount, 
+            "".to_string(), 
+            None, 
+            token_address,
+            1,
+            Gas(100000000000000)
+        ).and(
+            
+        );
+        return "0";
     }
 
-    pub fn test(&self) -> Vec<AccountId> {
-        return self.supported_tokens.clone();
+    pub fn test(&self) -> Option<Vec<AccountId>> {
+        let data = "{\"force\":0,\"actions\":[{\"pool_id\":2999,\"token_in\":\"kongztoken.near\",\"token_out\":\"wrap.near\",\"amount_in\":\"57000000000\",\"min_amount_out\":\"724258232698179300000000\"}]}";
+        let v: Value = serde_json::from_str(data).ok()?;
+        env::log(format!("Please call {} at the number {}", v["force"], v["actions"][0]).as_bytes());
+        return Some(self.supported_tokens.clone());
     }
 
     pub fn add_token_resolve(&mut self, token_addr:AccountId) -> bool{
