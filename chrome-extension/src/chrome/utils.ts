@@ -68,37 +68,34 @@ export const createNewTransaction = ()  => {
         // console.log("Public Key:")
         console.log(TxsArgsString)
 
+        const encoded_attch_ammnt = transactionDecoded.actions[0].functionCall.deposit;
+        // decode from BN object to string
+        const decoded_attch_ammnt = new BN(encoded_attch_ammnt).toString();
+        console.log("[background.ts] decoded_attch_ammnt", decoded_attch_ammnt);
+        const old_contract = transactionDecoded.receiverId;
+        const old_method =  transactionDecoded.actions[0].functionCall.methodName;
+        const getTokenTopaywith = getTokenFromLS(); // get from localstorage the token that the user wants to pay with
 
+        get_price(decoded_attch_ammnt,getTokenTopaywith).then((res) =>  {
+            console.log("[background.ts] get_price", res);
 
-        get_price().then(price => {
-            console.log("[background.ts] get_price", price);
-            // calculate amount to send
-            let pool_id; // pre saved in the DEX contract, for now hardcoded depending on the token
-            const minimum_amount_near = "1"
-            const calculatedamount = price;
+            const calculatedamount =  Math.ceil(res?.price + res?.price * (res?.fee/10000) *2).toString();
+            //round up calculated amount
             console.log("[background.ts] calculatedamount", calculatedamount);
             
-            const encoded_attch_ammnt = transactionDecoded.actions[0].functionCall.deposit;
-            const old_contract = transactionDecoded.receiverId;
-            const old_method =  transactionDecoded.actions[0].functionCall.methodName;
-            console.log("encoded_attch_ammnt:", encoded_attch_ammnt)
-
             
-
-            // decode from BN object to string
-            const decoded_attch_ammnt = new BN(encoded_attch_ammnt).toString();
-            console.log("[background.ts] decoded_attch_ammnt", decoded_attch_ammnt);
+            console.log("encoded_attch_ammnt:", encoded_attch_ammnt)
             
             // console.log(decoded_attch_ammnt);
             const msg_args =  {
                 "swap_args": {
                     "actions": [
                         {
-                            "pool_id": pool_id, //for the swap
+                            "pool_id": res?.pool_id, //for the swap
                             "token_in": getTokenFromLS(), // the token that user wants to swap with
                             "amount_in": calculatedamount,
                             "token_out": "wrap.testnet", // usually its near
-                            "min_amount_out":  minimum_amount_near// minimum amount of near to swap
+                            "min_amount_out":  "1"// minimum amount of Yoct to swap
                         }
                     ]
                 },

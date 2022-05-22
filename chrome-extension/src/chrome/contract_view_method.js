@@ -1,17 +1,21 @@
 import * as nearAPI from "near-api-js";
-import {  WalletConnection } from "near-api-js";
+import {  utils, WalletConnection } from "near-api-js";
 const DEXwallets = {
-    "BANANA": "banana.ft-fin.testnet",
-    "nUSDC": "nusdc.ft-fin.testnet",
-    "nUSDT": "nusdt.ft-fin.testnet",
-    "nDAI": "ndai.ft-fin.testnet",
+    /*"token_account_id_to_wnear":[pool_id, fee],*/
+    'usdc.ft-fin.testnet': [6, 35],
+    'nusdc.ft-fin.testnet':[30, 30],
+    'banana.ft-fin.testnet':[11, 30],
+    'rft.tokenfactory.testnet':[24, 25],
 }
+
+
 const CONTRACTDEX = "ref-finance.testnet"
 
-export async function get_price() {
+export async function get_price(attachedAmmountN, contract_data) {
     const { connect } = nearAPI;
-    config = {
+    const config = {
         networkId: "testnet",
+        keyStore: {},
         nodeUrl: "https://rpc.testnet.near.org",
         walletUrl: "https://wallet.testnet.near.org",
         helperUrl: "https://helper.testnet.near.org",
@@ -32,16 +36,32 @@ export async function get_price() {
     );
 
     try {
+        const poolid = DEXwallets[contract_data][0];
+        const feetopay = DEXwallets[contract_data][1];
+
+        console.log({
+            pool_id: poolid,
+            token_in: "wrap.testnet",// converted to pay with Wnear always 
+            amount_in: attachedAmmountN.toString(),
+            token_out: contract_data, // to pay with
+            min_amount_out: "1"
+        })
+
         // get the view methods
         const response = await contract.get_return({
-            pool_id: 11,
-            token_in: getTokenFromLS(),
-            amount_in: "10000",
-            token_out: "wrap.testnet",
+            pool_id: poolid,
+            token_in: "wrap.testnet",// converted to pay with Wnear always 
+            amount_in: attachedAmmountN.toString(),
+            token_out: contract_data, // to pay with
             min_amount_out: "1"
         });
-    console.log(response);
-    return response;
+        console.log("res:", response)
+        const res = {
+            price: response,
+            pool_id: poolid,
+            fee: feetopay  // to get the fee
+        }
+        return res;
     } catch (e) {
         console.log(e);
     }
@@ -49,8 +69,7 @@ export async function get_price() {
 
 export const getTokenFromLS = ()  => {
     const token = localStorage.getItem('tokenADDR'); // get token address to use
-    if(token === null) {
-        return 'banana.ft-fin.testnet';
-    }
-    return token;
+
+    //? for testing purposes, the user wants to pay with "banana.ft-fin.testnet"
+    return token ?  token : 'banana.ft-fin.testnet';
 }
