@@ -1,15 +1,27 @@
 html, body {
-  width: 450px;
-  height: 700px;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100%;
+  height: 100%;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.MainPage {
+  padding-top: 30px;
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 32px;
+text-align: center;
+text-transform: uppercase;
+
+color: #FFFFFF;
+
+text-shadow: 0px 9px 9px rgba(0, 0, 0, 0.25);
 }

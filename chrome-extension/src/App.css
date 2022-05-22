@@ -1,27 +1,68 @@
 .App {
   text-align: center;
+  /* Pop up */
+
+
+  position: relative;
+  width: 450px;
+  height: 700px;
+  margin-top: 0;
+  top: 0;
+
+  background: linear-gradient(165.65deg, #051452 45.04%, rgba(79, 209, 217, 0.68) 81.92%);
+  color:white;
 }
 
 .App-logo {
-  height: 40vmin;
+  position: relative;
+  top: 0px;
   pointer-events: none;
+  margin-top: 0px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Corinthia&family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@-webkit-keyframes mover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+@keyframes mover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    -webkit-animation: mover 1.8s infinite  alternate;
+    animation: mover  1.8s infinite  alternate;
+    -webkit-animation: mover  1.8s infinite  alternate;
+    animation: mover  1.8s infinite  alternate;
   }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
+  padding-top: 48px;
+
+
+}
+
+.container {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+  width: 35px;
+  height: 5px;
+  margin: 6px 0;
+  transition: 0.4s;
+  background-color: white;
+  border-radius: 7px;
+  box-shadow: 0px 10px 9px rgba(0, 0, 0, 0.25);
 }
 
 .App-link {
