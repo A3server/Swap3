@@ -16,7 +16,7 @@ export async function get_price(attachedAmmountN, contract_data) {
     const config = {
         networkId: "testnet",
         keyStore: {},
-        nodeUrl: "https://rpc.testnet.near.org",
+        nodeUrl: "https://near-testnet--rpc.datahub.figment.io/apikey/363ef686ac2974ee4bc2da2ca7c50f5d",
         walletUrl: "https://wallet.testnet.near.org",
         helperUrl: "https://helper.testnet.near.org",
         explorerUrl: "https://explorer.testnet.near.org",
