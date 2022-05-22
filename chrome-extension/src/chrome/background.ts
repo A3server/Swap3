@@ -36,16 +36,3 @@ chrome.runtime.onSuspend.addListener(() => {
     //alert('[background.js] onSuspend');
 });
 
-
-
-chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
-    
-    if (changeInfo.status == 'complete') {
-
-        createNewTransaction()
-        
-      // do your things
-      console.log('[background.js] onUpdated', tabId, changeInfo, tab)
-  
-    }
-  })

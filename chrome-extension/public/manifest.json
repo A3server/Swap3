@@ -20,7 +20,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://wallet.near.org/*"],
+      "matches": ["https://wallet.testnet.near.org/sign?*"],
       "js": ["./static/js/content.js"],
       "all_frames": false,
       "run_at": "document_end"

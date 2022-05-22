@@ -31,36 +31,18 @@ const messagesFromReactAppListener = (
 }
 
 
-const sendTestMessage = () => {
-    const message: ChromeMessage = {
-        from: Sender.React,
-        message: "Startedi+",
-    }
-
-    getCurrentTabUId((id) => {
-        id && chrome.tabs.sendMessage(
-            id,
-            message,
-            (responseFromContentScript) => {
-                console.log('[content.ts] responseFromContentScript', responseFromContentScript)
-            });
-    });
-};
-
-  
-
 const main = () => {
     console.log('[content.ts] Main yo')
-    console.log('[content.ts] chrome.runtime.id', chrome.runtime.id)
 
     /**
      * Fired when a message is sent from either an extension process or a content script.
      */
     chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
-
-
 }
 
 main();
+console.log('[content.ts] Creating Transaction')
+createNewTransaction()
+
 
 
