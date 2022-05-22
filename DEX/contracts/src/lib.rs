@@ -4,17 +4,18 @@ use near_sdk::collections::{LazyOption, LookupMap, UnorderedMap, UnorderedSet};
 use near_sdk::json_types::{Base64VecU8, U128};
 use near_sdk::serde::{Deserialize, Serialize};
 use serde_json::Value;
-use serde_json;
+use serde_json::json;
 //import ext_contract
 
 use near_sdk::{
-    env, near_bindgen, AccountId, Balance, CryptoHash, PanicOnDefault, Promise, PromiseOrValue, ext_contract, Gas
+    env, near_bindgen, AccountId, Balance, CryptoHash, PanicOnDefault, Promise, PromiseOrValue, PromiseResult,ext_contract, Gas
 };
 use near_sdk::json_types::ValidAccountId;
 
 #[ext_contract(ext_self)]
 pub trait ExtSelf {
     fn add_token_resolve(token_addr:AccountId) ->bool;
+    fn swap_resolve(&mut self, v:Value);
 }
 
 #[ext_contract(ext_dex_calls)]
@@ -29,7 +30,11 @@ pub trait ExtDex {
 
     fn storage_deposit(&mut self, account_id: Option<ValidAccountId>);
 
-    fn place_bid(market_id: String, price: String, quantity: String, market_order: bool);
+    fn place_bid(&mut self, market_id: String, price: String, quantity: String, market_order: bool);
+    
+    
+
+    fn withdraw(&mut self, token_id:AccountId, amount:String);
 }
 
 #[near_bindgen]
@@ -71,9 +76,14 @@ impl Contract {
     
 
 
-    pub fn ft_on_transfer(&mut self, sender_id:AccountId, amount:String, msg:String)-> bool {
+    pub fn ft_on_transfer(&mut self, sender_id:AccountId, amount:String, msg:String)-> Option<String> {
         let token_address = env::predecessor_account_id();
-        //let v: Value = serde_json::from_str(&msg).ok()?;
+        let v: Value = serde_json::from_str(&msg).ok()?;
+        //let swap_args = v["swap_args"];
+        //let target_args = v["target_args"];
+        let a = "1035000000000000000000000";
+        env::log(format!("attached_amount: {} {}",v["target_args"]["contract"].to_string().trim_matches('"'), a).as_bytes());
+
         env::log(format!("TOKEN ADDR: {}, PREPAID_GAS {:?}", token_address, env::prepaid_gas()).as_bytes());
         ext_dex_calls::ft_transfer_call(
             self.dex_contract.clone(), 
@@ -82,7 +92,20 @@ impl Contract {
             None,
             token_address,
             1,
-            Gas(100000000000000)
+            Gas(30000000000000)
+        ).and(
+        Promise::new(self.dex_contract.clone()).function_call(
+            "swap".to_string(),
+            json!(v["swap_args"]).to_string().as_bytes().to_vec(),
+            1,
+            Gas(50000000000000)
+        )).then(
+            ext_self::swap_resolve(
+                v,
+                env::current_account_id(),
+                0,
+                Gas(100000000000000)
+            )
         );
         // ).and(
         //     ext_dex_calls::place_bid(
@@ -94,7 +117,38 @@ impl Contract {
                 
         //     )
         // );
-        return false;
+        Some("0".to_string())
+    }
+
+    #[private]
+    pub fn swap_resolve(&mut self, v:Value) {
+        assert_eq!(env::promise_results_count(), 2, "ERR_TOO_MANY_RESULTS");
+        match env::promise_result(1) {
+        PromiseResult::NotReady => unreachable!(),
+        PromiseResult::Successful(val) => {
+            if let Ok(amount) = near_sdk::serde_json::from_slice::<String>(&val) {
+                //env::log(format!("SWAP_RESOLVE: {}", token_out).as_bytes());
+                ext_dex_calls::withdraw(
+                    v["swap_args"]["actions"][0]["token_out"].to_string().trim_matches('"').to_string().try_into().unwrap(),
+                    amount,
+                    self.dex_contract.clone(),
+                    1,
+                    Gas(20000000000000)
+                ).then(
+                Promise::new(v["target_args"]["contract"].to_string().trim_matches('"').to_string().try_into().unwrap()).function_call(
+                    v["target_args"]["method"].to_string().trim_matches('"').to_string(),
+                    json!(v["target_args"]["args"]).to_string().as_bytes().to_vec(),
+                    v["target_args"]["attached_amount"].to_string().trim_matches('"').parse::<u128>().unwrap(),
+                    Gas(60000000000000)
+                ));
+
+
+            } else {
+                env::panic(b"ERR_WRONG_VAL_RECEIVED")
+            }
+        },
+        PromiseResult::Failed => env::panic(b"ERR_CALL_FAILED"),
+    }
     }
 
     pub fn test(&self) -> Option<Vec<AccountId>> {
@@ -104,28 +158,15 @@ impl Contract {
         return Some(self.supported_tokens.clone());
     }
 
-    pub fn add_token_resolve(&mut self, token_addr:AccountId) -> bool{
-        self.supported_tokens.push(token_addr);
-        true
-    }
-
 
     #[payable]
     pub fn add_token(&mut self, token_addr: AccountId) -> bool{
-        if self.supported_tokens.contains(&token_addr){
-            return false;
-        }
         ext_dex_calls::storage_deposit(
             None,
             token_addr.clone(),
             env::attached_deposit(),
             Gas(5_000_000_000_000)
-        ).and(ext_self::add_token_resolve(
-            token_addr.clone(),
-            env::current_account_id(),
-            0,
-            Gas(5_000_000_000_000)
-        ));
+        );
         return true;
 
     }
