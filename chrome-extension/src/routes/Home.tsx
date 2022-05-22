@@ -19,8 +19,8 @@ const DEXES = [
     /*{name: "tonic.foundation", contract: "tonic-foundation.testnet", logo: tonicLogo},*/
 ]
 const TOKENS = [
-    "nDAI",
     "BANANAS",
+    "nDAI",
     "USDC",
 ]
 export const Home = () => {
@@ -47,7 +47,7 @@ export const Home = () => {
             <p className="MainPage">3 Swap</p>
             <Dropdown>
                 <Dropdown.Toggle className="flex-direction-center btn-lg" id="dropdown-basic-button" title="Dropdown button"> 
-                    SELECT DEX
+                    DEX: {selectedDEX.name}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu variant="dark" >
@@ -68,13 +68,13 @@ export const Home = () => {
                 </Dropdown>
 
                 <div className="d-flex flex-column justify-content-center ">
-                    <span style={{marginTop:"40px"}}>POPULAR TOKENS</span>
+                    <span style={{marginTop:"40px"}}>TOKEN PRIORITY</span>
                     {/* make a white roudned rectangle */}
                     {
-                    TOKENS.map((token) => {
+                    TOKENS.map((token, i ) => {
                         return (
                          <div className="rounded-rectangle d-flex flex-row justify-content-start mt-3" style={{marginLeft:"20%"}}>
-                         <span  style={{color: "black", marginLeft:"30px", marginTop:"5px"}} >{token}</span>
+                         <span  style={{color: "black", marginLeft:"30px", marginTop:"5px"}} >{i+1}. {token}</span>
                      </div>
                      );
                      

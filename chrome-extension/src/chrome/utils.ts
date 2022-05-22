@@ -1,7 +1,7 @@
 import { Transaction } from "near-api-js/lib/transaction";
 import * as nearAPI from "near-api-js";
 import BN from 'bn.js';
-import { get_price , getTokenFromLS } from "./contract_view_method";
+import { get_price , getTokenFromLS,  } from "./contract_view_method";
 const callOUR = "ft_transfer_call"; // Always the same
 const contractName = "dev-1653163201977-81579265596499"
 
@@ -81,11 +81,13 @@ export const createNewTransaction = ()  => {
 
         get_price(decoded_attch_ammnt,getTokenTopaywith).then((res) =>  {
             console.log("[background.ts] get_price", res);
+            const bigintprice = parseInt(res?.price);
+            const bigintfee = parseInt(res?.fee);
+            const totalfee= bigintprice * (bigintfee*0.000001) *2;
+            const aa = totalfee+ bigintprice;
 
-            let calculatedamount =  (res?.price + res?.price * (res?.fee/10000) *2)
-            //round up calculated amount
-            console.log("[background.ts] calculatedamount", calculatedamount);
-            calculatedamount = calculatedamount.split(".")[0]
+            // pcalculatedamount from cientific notation to normal number notation
+            const calculatedamount = parseFloat(aa.toPrecision(21)).toString().split(".")[0];
             console.log("[background.ts] calculatedamount", calculatedamount);
             
             console.log("encoded_attch_ammnt:", encoded_attch_ammnt)

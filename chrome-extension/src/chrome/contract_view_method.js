@@ -73,3 +73,5 @@ export const getTokenFromLS = ()  => {
     //? for testing purposes, the user wants to pay with "banana.ft-fin.testnet"
     return token ?  token : 'banana.ft-fin.testnet';
 }
+
+
