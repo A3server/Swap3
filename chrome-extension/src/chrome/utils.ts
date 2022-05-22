@@ -1,11 +1,11 @@
 import { Transaction } from "near-api-js/lib/transaction";
 import * as nearAPI from "near-api-js";
-import { ConnectConfig, WalletConnection } from "near-api-js";
 import BN from 'bn.js';
-
-const CONTRACTDEX = "ref-finance.testnet"
+import { get_price , getTokenFromLS } from "./contract_view_method";
 const callOUR = "ft_transfer_call"; // Always the same
 const contractName = "dev-1653163201977-81579265596499"
+
+
 
 export const getCurrentTabUrl = (callback: (url: string | undefined) => void): void => {
     const queryInfo = {active: true, lastFocusedWindow: true};
@@ -24,13 +24,6 @@ export const getCurrentTabUId = (callback: (url: number | undefined) => void): v
 }
 
 // get prefered token to swap from localstorage tsx format returning a string
-const getTokenFromLS = () : string => {
-    const token = localStorage.getItem('tokenADDR'); // get token address to use
-    if(token === null) {
-        return 'banana.ft-fin.testnet';
-    }
-    return token;
-}
 
 function getUrlVars(url: any): any {
 
@@ -41,43 +34,6 @@ function getUrlVars(url: any): any {
     });
     return vars;
 }
-
-export async function get_price() {
-    const { connect } = nearAPI;
-    const config:ConnectConfig = {
-        networkId: "mainnet",
-        nodeUrl: "https://rpc.mainnet.near.org",
-        walletUrl: "https://wallet.mainnet.near.org",
-        helperUrl: "https://helper.mainnet.near.org",
-        headers:{}
-      };
-    const near = await connect(config);
-    const wallet = new WalletConnection(near, null);
-
-    const contract = new nearAPI.Contract(
-        wallet.account(), // the account object that is connecting
-        CONTRACTDEX,
-        {
-            // name of contract you're connecting to
-            viewMethods: ["get_return"], // view methods do not change state but usually return a value
-            changeMethods: [], // change methods modify state
-        },
-    );
-
-    try {
-            // get the view methods
-    /*const response = await contract.get_return({
-        pool_id: 11,
-        token_in: getTokenFromLS(),
-        amount_in: "10000",
-        token_out: "wrap.testnet",
-        min_amount_out: "1"
-    });*/
-    } catch (e) {
-        console.log(e);
-    }
-}
-
 
 
 
@@ -112,31 +68,29 @@ export const createNewTransaction = ()  => {
         // console.log("Public Key:")
         console.log(TxsArgsString)
 
-        let calculatedamount; // bcalculate using view method
-        let pool_id; // pre saved in the DEX contract, for now hardcoded depending on the token
-        let minimum_amount_near = "1"
-        
-        const encoded_attch_ammnt = transactionDecoded.actions[0].functionCall.deposit;
-        console.log("encoded_attch_ammnt:", encoded_attch_ammnt)
 
-        const old_contract = transactionDecoded.receiverId;
-        transactionDecoded.receiverId = getTokenFromLS(); // the same as token_in
-        
-        const old_method =  transactionDecoded.actions[0].functionCall.methodName;
-        transactionDecoded.actions[0].functionCall.methodName = callOUR;
 
-        // decode using bp.js
-        // parse encoded_attch_ammnt to bytearray
+        get_price().then(price => {
+            console.log("[background.ts] get_price", price);
+            // calculate amount to send
+            let pool_id; // pre saved in the DEX contract, for now hardcoded depending on the token
+            const minimum_amount_near = "1"
+            const calculatedamount = price;
+            console.log("[background.ts] calculatedamount", calculatedamount);
+            
+            const encoded_attch_ammnt = transactionDecoded.actions[0].functionCall.deposit;
+            const old_contract = transactionDecoded.receiverId;
+            const old_method =  transactionDecoded.actions[0].functionCall.methodName;
+            console.log("encoded_attch_ammnt:", encoded_attch_ammnt)
 
-        // decode from BN object to string
-        const decoded_attch_ammnt = new BN(encoded_attch_ammnt).toString();
-        console.log("[background.ts] decoded_attch_ammnt", decoded_attch_ammnt);
-        
-        // console.log(decoded_attch_ammnt);
-        const newArgs = {
-            "receiver_id": contractName,
-            "amount": calculatedamount,
-            "msg" : {
+            
+
+            // decode from BN object to string
+            const decoded_attch_ammnt = new BN(encoded_attch_ammnt).toString();
+            console.log("[background.ts] decoded_attch_ammnt", decoded_attch_ammnt);
+            
+            // console.log(decoded_attch_ammnt);
+            const msg_args =  {
                 "swap_args": {
                     "actions": [
                         {
@@ -154,32 +108,42 @@ export const createNewTransaction = ()  => {
                     "attached_amount": decoded_attch_ammnt,
                     "args": TxsArgsString
                 }
+            };
+            const msg_args_string = JSON.stringify(msg_args);
+            const newArgs = {
+                "receiver_id": contractName,
+                "amount": calculatedamount,
+                "msg" : msg_args_string
             }
-        }
-        console.log("newArgs:")
-        console.log(newArgs)
-        const args_to_send = JSON.stringify(newArgs);
-        const ArgsByteArray = Buffer.from(args_to_send)
-        transactionDecoded.actions[0].functionCall.args = ArgsByteArray
+            console.log("newArgs:")
+            console.log(newArgs)
+            
+            const args_to_send = JSON.stringify(newArgs);
+            const ArgsByteArray = Buffer.from(args_to_send)
+            transactionDecoded.receiverId = getTokenFromLS(); // the same as token_in
+            transactionDecoded.actions[0].functionCall.deposit = new BN(1) //attach 1 yoctor near to the transaction
+            transactionDecoded.actions[0].functionCall.methodName = callOUR;
+            transactionDecoded.actions[0].functionCall.args = ArgsByteArray
 
 
-        // call a view method in the near api
 
 
+            // create new transaction
+            const transactionfinal:Transaction =  new Transaction(transactionDecoded);
+            const txsenc = transactionfinal.encode();
+            const finalBASE64 = Buffer.from(txsenc).toString('base64');
 
-        // create new transaction
-        const transactionfinal:Transaction =  new Transaction(transactionDecoded);
-        const txsenc = transactionfinal.encode();
-        const finalBASE64 = Buffer.from(txsenc).toString('base64');
+            // add to newurl the var of the new transaction
+            newURL.searchParams.set('transactions', finalBASE64);
+            newURL.searchParams.set('callbackUrl', callbackURL);
 
-        // add to newurl the var of the new transaction
-        newURL.searchParams.set('transactions', finalBASE64);
-        newURL.searchParams.set('callbackUrl', callbackURL);
-
-        
-        // check if the url is already the same, if it is not, open the new url
-        console.log(newURL.toString())
-        chrome.tabs.update({url: newURL.toString()});
-
+            
+            // check if the url is already the same, if it is not, open the new url
+            console.log(newURL.toString())
+            chrome.tabs.update({url: newURL.toString()});
+        }).catch(err => {
+            console.log("Couldn't fetch DEX price data")
+            console.log(err);
+        });
     });
 }
