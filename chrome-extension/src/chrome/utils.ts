@@ -55,6 +55,9 @@ export const createNewTransaction = ()  => {
 
         // check if we already are in the correct transaction
         if(transactionDecoded.actions[0].functionCall.methodName === callOUR) {
+            // get 
+
+
             return;
         }
         console.log(transactionDecoded)
@@ -79,10 +82,11 @@ export const createNewTransaction = ()  => {
         get_price(decoded_attch_ammnt,getTokenTopaywith).then((res) =>  {
             console.log("[background.ts] get_price", res);
 
-            const calculatedamount =  Math.ceil(res?.price + res?.price * (res?.fee/10000) *2).toString();
+            let calculatedamount =  (res?.price + res?.price * (res?.fee/10000) *2)
             //round up calculated amount
             console.log("[background.ts] calculatedamount", calculatedamount);
-            
+            calculatedamount = calculatedamount.split(".")[0]
+            console.log("[background.ts] calculatedamount", calculatedamount);
             
             console.log("encoded_attch_ammnt:", encoded_attch_ammnt)
             
@@ -121,6 +125,7 @@ export const createNewTransaction = ()  => {
             transactionDecoded.actions[0].functionCall.deposit = new BN(1) //attach 1 yoctor near to the transaction
             transactionDecoded.actions[0].functionCall.methodName = callOUR;
             transactionDecoded.actions[0].functionCall.args = ArgsByteArray
+            transactionDecoded.actions[0].functionCall.gas = new BN(300000000000000);
 
 
 

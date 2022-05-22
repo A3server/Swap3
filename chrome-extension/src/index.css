@@ -2,19 +2,9 @@ html, body {
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  overflow-x: hidden;
 
-}
-
-html {
-  margin: 0px;
-   height: 100%;
-   width: 100%;
-}
-
-body {
-  margin: 0px;
-   min-height: 100%;
-   width: 100%;
 }
 
 code {
@@ -23,7 +13,7 @@ code {
 }
 
 .MainPage {
-  padding-top: 128px;
+  padding-top: 100px;
 font-style: normal;
 font-weight: 700;
 font-size: 30px;

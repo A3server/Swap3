@@ -8,8 +8,8 @@ import mainLogo from "../assets/swap3.svg";
 import jumboLogo from "../assets/jumbo.svg";
 import tonicLogo from "../assets/tonic.svg";
 import refLogo from "../assets/ref.svg";
-import MenuIcon from "../components/MenuIcon";
-import VectorBG from "../assets/Vector.png";
+import VectorBG from "../assets/Vector.svg";
+import BarrasMenu from '../assets/BarrasMenu.svg';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -18,7 +18,11 @@ const DEXES = [
     {name: "jumbo.exchange", contract: "jumbo-exchange.testnet", logo: jumboLogo}
     /*{name: "tonic.foundation", contract: "tonic-foundation.testnet", logo: tonicLogo},*/
 ]
-
+const TOKENS = [
+    "nDAI",
+    "BANANAS",
+    "USDC",
+]
 export const Home = () => {
     const [url, setUrl] = useState<string>('');
     const [selectedDEX, setDex] = useState(DEXES[0])
@@ -38,7 +42,7 @@ export const Home = () => {
         <div className="App">
             <header className="App-header">
                 <img src={mainLogo} className="App-logo" alt="logo" />
-                <MenuIcon />
+                <img src={BarrasMenu} className="App-logo2" style={{marginTop:"5px"}}/>
             </header>
             <p className="MainPage">3 Swap</p>
             <Dropdown>
@@ -66,9 +70,20 @@ export const Home = () => {
                 <div className="d-flex flex-column justify-content-center ">
                     <span style={{marginTop:"40px"}}>POPULAR TOKENS</span>
                     {/* make a white roudned rectangle */}
-                    <div className="rounded-rectangle d-flex flex-row justify-content-start">
-                        <span  style={{paddingRight:"15px", color: "black"}} >USDC</span>
+                    {
+                    TOKENS.map((token) => {
+                        return (
+                         <div className="rounded-rectangle d-flex flex-row justify-content-start mt-3" style={{marginLeft:"20%"}}>
+                         <span  style={{color: "black", marginLeft:"30px", marginTop:"5px"}} >{token}</span>
+                     </div>
+                     );
+                     
+                    })}
+
+                    <div className="rounded-rectangle d-flex flex-row justify-content-start mt-3" style={{marginLeft:"20%"}}>
+                        <span  style={{color: "black", marginLeft:"30px", marginTop:"5px"}} >Custom Token</span>
                     </div>
+                   
 
                 </div>
                 <img src={VectorBG} className="VectorBG" alt="logo" />
